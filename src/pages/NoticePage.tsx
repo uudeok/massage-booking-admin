@@ -1,7 +1,7 @@
-import Notices from "../components/Notices/Notices";
+import NoticeList from "../components/Notices/NoticeList";
 
 const NoticePage = () => {
-  return <Notices />;
+  return <NoticeList />;
 };
 
 export default NoticePage;

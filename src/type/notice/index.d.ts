@@ -1,9 +1,9 @@
 export const NOTICE_CATEGORY = {
   ALL: "전체",
   BUSINESS_TIME: "영업시간",
-  EVENTS: "이벤트",
+  EVENT: "이벤트",
   ETC: "기타",
-  RULES: "운영방침",
+  RULE: "운영방침",
 } as const;
 
 export type valueOf<T> = T[keyof T];
@@ -12,10 +12,25 @@ export type NOTICE_CATEGORY_KEYS = keyof NOTICE_CATEGORY_TYPE;
 export type NOTICE_CATEGORY_VALUES = valueOf<NOTICE_CATEGORY_TYPE>;
 
 export type TNotice = {
-  title: string;
-  date: string;
   category: NOTICE_CATEGORY_KEYS;
   content: string;
+  createdAt: string;
+  displayCategory: NOTICE_CATEGORY_VALUES;
   id: number;
-  auth: string;
+  title: string;
+  updatedAt: string;
+  viewCount: number;
+  writer: string;
+};
+
+export type TNoticeMeta = {
+  currentPage: number;
+  nextPage: number;
+  prevPage: number;
+  totalCount: number;
+};
+
+export type NoticeType = {
+  notices: TNoticeDetail[];
+  meta: TNoticeMeta;
 };

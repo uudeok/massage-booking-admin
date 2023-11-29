@@ -37,7 +37,9 @@ const items: MenuItem[] = [
     label: "공지사항",
     key: "notice",
     icon: <NotificationOutlined />,
-    children: [{ label: <Link to="/notice">공지사항</Link>, key: "notice" }],
+    children: [
+      { label: <Link to="/notice">공지사항</Link>, key: "noticeList" },
+    ],
   },
 ];
 

@@ -4,6 +4,8 @@ import reportWebVitals from "./reportWebVitals";
 import GlobalStyles from "./styles/globalStyles";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./configs/routes";
+import { Provider } from "react-redux";
+import { store } from "./store/stroe";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -11,7 +13,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <GlobalStyles />
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 
