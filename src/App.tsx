@@ -1,11 +1,8 @@
-import React from "react";
-
 function App() {
   return (
     <div>
-      <div>hi</div>
+      <div>대쉬보드 자리</div>
     </div>
   );
 }
-
 export default App;
