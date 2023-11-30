@@ -8,13 +8,13 @@ import {
   BookOutlined,
   NotificationOutlined,
 } from "@ant-design/icons";
-import type { MenuProps, MenuTheme } from "antd";
+import type { MenuProps } from "antd";
 import { Menu, Switch } from "antd";
 import { Link } from "react-router-dom";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-const items: MenuItem[] = [
+export const items: MenuItem[] = [
   {
     label: "예약",
     key: "book",
@@ -39,17 +39,13 @@ const items: MenuItem[] = [
     icon: <NotificationOutlined />,
     children: [
       { label: <Link to="/notice">공지사항</Link>, key: "noticeList" },
+      { label: "작성하기", key: "newNotice" },
     ],
   },
 ];
 
-const App: React.FC = () => {
-  const [theme, setTheme] = useState<MenuTheme>("dark");
+const Navbar: React.FC = () => {
   const [current, setCurrent] = useState("1");
-
-  const changeTheme = (value: boolean) => {
-    setTheme(value ? "dark" : "light");
-  };
 
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
@@ -58,17 +54,9 @@ const App: React.FC = () => {
 
   return (
     <MenuBarStyle>
-      <SwitchStyle
-        checked={theme === "dark"}
-        onChange={changeTheme}
-        checkedChildren="Dark"
-        unCheckedChildren="Light"
-      />
-
       <Menu
-        theme={theme}
         onClick={onClick}
-        style={{ width: 256 }}
+        style={{ width: 200 }}
         defaultOpenKeys={["sub1"]}
         selectedKeys={[current]}
         mode="inline"
@@ -78,14 +66,9 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Navbar;
 
 const MenuBarStyle = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const SwitchStyle = styled(Switch)`
-  width: 5rem;
-  margin-top: 1rem;
 `;

@@ -5,6 +5,8 @@ import { useGetNoticeListQuery } from "../../api/notice/noticeApi";
 import NoticeFilter from "./NoticeFilter";
 import { useState } from "react";
 import styled from "styled-components";
+import Paging from "../pagination/Paging";
+import { Link } from "react-router-dom";
 
 const NOTICE_PAGE_SIZE = 5;
 
@@ -16,6 +18,7 @@ const columns: ColumnsType<TNotice> = [
   {
     title: "제목",
     dataIndex: "title",
+    render: (text, record) => <Link to={"/notice/" + record.id}>{text}</Link>,
   },
   {
     title: "작성일",
@@ -43,9 +46,10 @@ const onChange: TableProps<TNotice>["onChange"] = (
 const NoticeList = () => {
   const [selectedCategory, setSelectedCategory] =
     useState<NOTICE_CATEGORY_KEYS>("ALL");
+  const [page, setPage] = useState(1);
 
   const { data } = useGetNoticeListQuery({
-    pageNumber: 1,
+    pageNumber: page,
     pageSize: NOTICE_PAGE_SIZE,
     category: selectedCategory,
   });
@@ -59,6 +63,10 @@ const NoticeList = () => {
     setSelectedCategory(value);
   };
 
+  const changePageHandler = (page: number) => {
+    setPage(page);
+  };
+
   const list: TNotice[] = noticeList.map((item) => item);
 
   return (
@@ -70,6 +78,12 @@ const NoticeList = () => {
         onChange={onChange}
         rowKey={(record) => record.id}
         pagination={false}
+      />
+      <Paging
+        page={page}
+        count={meta.totalCount}
+        pageSize={NOTICE_PAGE_SIZE}
+        changePageHandler={changePageHandler}
       />
     </LayoutStyle>
   );
