@@ -1,5 +1,5 @@
 import { generate_NOTICE } from "..";
-import { NOTICE_CATEGORY_KEYS, NoticeType } from "../../type/notice";
+import { NOTICE_CATEGORY_KEYS, NoticeType, TNotice } from "../../type/notice";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const noticeApi = createApi({
@@ -28,7 +28,11 @@ export const noticeApi = createApi({
       },
       providesTags: [{ type: "notice" }],
     }),
+    getNoticeDetail: builder.query<TNotice, number>({
+      query: (id) => `/${id}`,
+      providesTags: ["notice"],
+    }),
   }),
 });
 
-export const { useGetNoticeListQuery } = noticeApi;
+export const { useGetNoticeListQuery, useGetNoticeDetailQuery } = noticeApi;

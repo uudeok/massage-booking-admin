@@ -1,16 +1,10 @@
 import React from "react";
-import type { MenuProps } from "antd";
 import { Breadcrumb, Layout } from "antd";
 import Navbar from "./components/layout/Navbar";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 
 const { Header, Content, Sider } = Layout;
-
-const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
 
 const App: React.FC = () => {
   return (
