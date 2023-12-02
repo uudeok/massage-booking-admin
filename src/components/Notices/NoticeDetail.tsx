@@ -1,90 +1,109 @@
 import { useGetNoticeDetailQuery } from "../../api/notice/noticeApi";
 import { useParams } from "react-router-dom";
-import { Badge, Descriptions } from "antd";
-import type { DescriptionsProps } from "antd";
+import { Descriptions, DescriptionsProps, Button } from "antd";
+import dayjs from "dayjs";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
+import { NOTICE_CATEGORIES } from "../../const/notice";
 
 const NoticeDetail = () => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate();
+  const [activation, setActivation] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const { id } = useParams();
-
   const { data } = useGetNoticeDetailQuery(Number(id));
   if (!data) return <span>Loading...</span>;
-  console.log(data);
 
-  const items: DescriptionsProps["items"] = [
+  const changeCategoryHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value);
+  };
+
+  const borderedItems: DescriptionsProps["items"] = [
     {
       key: "1",
-      label: "Product",
-      children: "Cloud Database",
+      label: "작성자",
+      children: data.writer,
     },
     {
       key: "2",
-      label: "Billing Mode",
-      children: "Prepaid",
+      label: "구분",
+      children: activation ? (
+        <select onChange={changeCategoryHandler}>
+          {NOTICE_CATEGORIES.map((item) => (
+            <option key={item.key} value={item.key}>
+              {item.value}
+            </option>
+          ))}
+        </select>
+      ) : (
+        data.displayCategory
+      ),
     },
     {
       key: "3",
-      label: "Automatic Renewal",
-      children: "YES",
+      label: "조회수",
+      children: data.viewCount,
     },
     {
       key: "4",
-      label: "Order time",
-      children: "2018-04-24 18:00:00",
+      label: "제목",
+      span: 2,
+      children: activation ? <input type="text" ref={inputRef} /> : data.title,
     },
     {
       key: "5",
-      label: "Usage Time",
-      span: 2,
-      children: "2019-04-24 18:00:00",
-    },
-    {
-      key: "6",
-      label: "Status",
-      span: 3,
-      children: <Badge status="processing" text="Running" />,
+      label: "작성일",
+      children: dayjs(data.createdAt).format("YYYY-MM-DD"),
     },
     {
       key: "7",
-      label: "Negotiated Amount",
-      children: "$80.00",
-    },
-    {
-      key: "8",
-      label: "Discount",
-      children: "$20.00",
-    },
-    {
-      key: "9",
-      label: "Official Receipts",
-      children: "$60.00",
-    },
-    {
-      key: "10",
-      label: "Config Info",
-      children: (
-        <>
-          Data disk type: MongoDB
-          <br />
-          Database version: 3.4
-          <br />
-          Package: dds.mongo.mid
-          <br />
-          Storage space: 10 GB
-          <br />
-          Replication factor: 3
-          <br />
-          Region: East China 1
-          <br />
-        </>
-      ),
+      label: "내용",
+      children: data.content,
     },
   ];
 
+  const changeInputHandler = () => {
+    setActivation((prev) => !prev);
+  };
+
+  const updateInputHandler = (e: React.MouseEvent<HTMLElement>) => {
+    console.log(inputRef.current?.value);
+    console.log(selectedCategory);
+  };
+
   return (
     <div>
-      <div>디테일</div>
+      <Descriptions
+        bordered
+        extra={
+          <ButtonBoxStyle>
+            <Button type="link" onClick={() => navigate("..")}>
+              뒤로가기
+            </Button>
+            {activation ? (
+              <Button type="primary" onClick={updateInputHandler}>
+                저장
+              </Button>
+            ) : (
+              <Button type="primary" onClick={changeInputHandler}>
+                수정
+              </Button>
+            )}
+
+            <Button type="primary">삭제</Button>
+          </ButtonBoxStyle>
+        }
+        items={borderedItems}
+      />
     </div>
   );
 };
 
 export default NoticeDetail;
+
+const ButtonBoxStyle = styled.div`
+  display: flex;
+  gap: 1rem;
+`;

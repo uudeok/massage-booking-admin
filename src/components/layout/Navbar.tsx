@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
   UserOutlined,
   BookOutlined,
   NotificationOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Menu, Switch } from "antd";
+import { Menu } from "antd";
 import { Link } from "react-router-dom";
 
 type MenuItem = Required<MenuProps>["items"][number];
