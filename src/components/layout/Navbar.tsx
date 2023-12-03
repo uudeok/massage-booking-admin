@@ -36,7 +36,7 @@ export const items: MenuItem[] = [
     icon: <NotificationOutlined />,
     children: [
       { label: <Link to="/notice">공지사항</Link>, key: "noticeList" },
-      { label: "작성하기", key: "newNotice" },
+      { label: <Link to="/notice/new">공지 올리기</Link>, key: "newNotice" },
     ],
   },
 ];
