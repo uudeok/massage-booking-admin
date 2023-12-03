@@ -1,12 +1,12 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import App from "../../App";
-import BookPage from "../../pages/BookPage";
+import OrderPage from "../../pages/OrderPage";
 import NoticePage from "../../pages/notices/NoticePage";
 import NoticeDetailPage from "../../pages/notices/NoticeDetailPage";
 import NewNoticePage from "../../pages/notices/NewNoticePage";
 
 const bookRouteObject: RouteObject[] = [
-  { path: "/book", element: <BookPage /> },
+  { path: "/book", element: <OrderPage /> },
 ];
 
 const noticeRouteObject: RouteObject[] = [
