@@ -1,12 +1,13 @@
 import { TNotice, NOTICE_CATEGORY_KEYS } from "../../type/notice";
 import { Table } from "antd";
-import type { ColumnsType, TableProps } from "antd/es/table";
+import type { ColumnsType } from "antd/es/table";
 import { useGetNoticeListQuery } from "../../api/notice/noticeApi";
 import NoticeFilter from "./NoticeFilter";
 import { useState } from "react";
 import styled from "styled-components";
 import Paging from "../pagination/Paging";
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
 
 const NOTICE_PAGE_SIZE = 5;
 
@@ -23,6 +24,7 @@ const columns: ColumnsType<TNotice> = [
   {
     title: "작성일",
     dataIndex: "createdAt",
+    render: (text, record) => dayjs(record.createdAt).format("YYYY-MM-DD"),
   },
   {
     title: "작성자",
@@ -33,15 +35,6 @@ const columns: ColumnsType<TNotice> = [
     dataIndex: "viewCount",
   },
 ];
-
-const onChange: TableProps<TNotice>["onChange"] = (
-  pagination,
-  filters,
-  sorter,
-  extra
-) => {
-  console.log("params", pagination, filters, sorter, extra);
-};
 
 const NoticeList = () => {
   const [selectedCategory, setSelectedCategory] =
@@ -67,15 +60,14 @@ const NoticeList = () => {
     setPage(page);
   };
 
-  const list: TNotice[] = noticeList.map((item) => item);
+  // const list: TNotice[] = noticeList.map((item) => item);
 
   return (
     <LayoutStyle>
       <NoticeFilter handleChange={handleChange} />
       <Table
         columns={columns}
-        dataSource={list}
-        onChange={onChange}
+        dataSource={noticeList}
         rowKey={(record) => record.id}
         pagination={false}
       />

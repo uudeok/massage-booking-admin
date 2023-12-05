@@ -6,7 +6,7 @@ import NoticeDetailPage from "../../pages/notices/NoticeDetailPage";
 import NewNoticePage from "../../pages/notices/NewNoticePage";
 
 const bookRouteObject: RouteObject[] = [
-  { path: "/book", element: <OrderPage /> },
+  { path: "/order", element: <OrderPage /> },
 ];
 
 const noticeRouteObject: RouteObject[] = [

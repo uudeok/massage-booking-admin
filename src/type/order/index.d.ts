@@ -1,29 +1,15 @@
-export const ORDER_STATUS = {
-  PENDING: "요청중",
-  CONFIRM: "예약확정",
-  CANCEL: "취소",
-  COMPLETED: "완료",
-} as const;
+import { ORDER_STATUS } from "../../const/orders";
+import { ITEM_TYPE_VALUES } from "../items";
 
 export type valueOf<T> = T[keyof T];
 export type ORDER_STATUS_TYPE = typeof ORDER_STATUS;
 export type ORDER_STATUS_TYPE_KEYS = keyof ORDER_STATUS_TYPE;
 export type ORDER_STATUS_TYPE_VALUES = valueOf<ORDER_STATUS_TYPE>;
 
-const DAY_OF_WEEK = {
-  monday: "monday",
-  tuesday: "tuesday",
-  wednesday: "wednesday",
-  thursday: "thursday",
-  friday: "friday",
-  saturday: "saturday",
-  sunday: "sunday",
-} as const;
-
 export type TOrderType = {
   id: number;
   price: number;
-  item: BOOKING_ITEM_VALUE;
+  item: ITEM_TYPE_VALUES;
   createdAt: string;
   status: ORDER_STATUS_TYPE_KEYS;
   displayStatus: ORDER_STATUS_TYPE_VALUES;
@@ -45,30 +31,9 @@ export type MyOrderType = {
   meta: TMyOrderMetaType;
 };
 
-export type TPostOrderType = {
-  item: BOOKING_ITEM_VALUE;
-  price: number;
-  startReservedAt: string;
-  endReservedAt: string;
-};
-
-export type TPostEventType = {
-  targetDate: string;
-  startReservedTime: string;
-  endReservedTime: string;
-  dayOfWeek: string;
-  itemId: number;
-  tutorId: number;
-};
-
-export type TPostType = {
-  order: TPostOrderType;
-  event: TPostEventType;
-};
-
 export type TDeleteType = {
   id: number;
-  item: BOOKING_ITEM_VALUE;
+  item: ITEM_TYPE_VALUES;
   status: ORDER_STATUS_TYPE_KEYS;
   displayStatus: ORDER_STATUS_TYPE_VALUES;
   price: price;
@@ -79,3 +44,15 @@ export type TDeleteType = {
   createdAt: string;
   updatedAt: string;
 };
+
+/////// sample
+
+interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
+  editing: boolean;
+  dataIndex: string;
+  title: any;
+  inputType: "number" | "text";
+  record: TOrderType;
+  index: number;
+  children: React.ReactNode;
+}

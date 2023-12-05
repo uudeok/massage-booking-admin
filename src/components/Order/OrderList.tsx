@@ -1,14 +1,21 @@
-import OrderTable from "./Table";
+import OrderCalendar from "./OrderCalendar";
+import OrderTable from "./OrderTable";
 import styled from "styled-components";
+import { useState } from "react";
 
 const OrderList = () => {
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
   return (
     <div>
-      <HeaderStyle>
-        <div>
-          <span>날짜별 조회 </span>
-        </div>
-      </HeaderStyle>
+      <CalendarBoxStyle>
+        <span>날짜별 조회 </span>
+        <OrderCalendar
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+      </CalendarBoxStyle>
+
       <OrderTable />
     </div>
   );
@@ -16,8 +23,10 @@ const OrderList = () => {
 
 export default OrderList;
 
-const HeaderStyle = styled.div`
+const CalendarBoxStyle = styled.div`
   display: flex;
-  padding: 1rem;
   text-align: center;
+  padding: 1rem;
+  align-items: center;
+  gap: 1rem;
 `;

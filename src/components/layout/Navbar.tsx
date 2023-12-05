@@ -14,11 +14,11 @@ type MenuItem = Required<MenuProps>["items"][number];
 export const items: MenuItem[] = [
   {
     label: "예약",
-    key: "book",
+    key: "order",
     icon: <BookOutlined />,
     children: [
-      { label: <Link to="/book">예약조회</Link>, key: "bookList" },
-      { label: "예약상세", key: "bookDetail" },
+      { label: <Link to="/order">예약조회</Link>, key: "orderList" },
+      { label: "예약상세", key: "orderDetail" },
     ],
   },
   {
