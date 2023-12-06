@@ -1,18 +1,22 @@
-import { Button, Table, Modal, Space } from "antd";
+import { Button, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { ORDER_STATUS_TYPE_VALUES, TOrderType } from "../../type/order";
 import { useGetOrderListQuery } from "../../api/order/orderApi";
 import Paging from "../pagination/Paging";
 import { useState } from "react";
 import dayjs from "dayjs";
-import styled from "styled-components";
-import OrderModal from "./OrderModal";
+import Modal from "../common/modal/Modal";
+import OrderStatusForm from "./OrderStatusForm";
+import { useModal } from "../../hooks/useModal";
+import { useDispatch } from "react-redux";
+import { setOrderState } from "../../store/orderSlice";
 
 const ORDER_PAGE_SIZE = 10;
 
 const OrderTable = () => {
+  const dispatch = useDispatch();
+  const { open, openModal, closeModal } = useModal();
   const [page, setPage] = useState(1);
-  const [open, setOpen] = useState(false);
   const { data } = useGetOrderListQuery({
     pageNumber: page,
     pageSize: ORDER_PAGE_SIZE,
@@ -23,6 +27,8 @@ const OrderTable = () => {
 
   const StatusHandler = (id: number, text: ORDER_STATUS_TYPE_VALUES) => {
     if (text === "요청중") {
+      dispatch(setOrderState(id));
+      openModal();
     }
     console.log(id, text);
   };
@@ -64,7 +70,7 @@ const OrderTable = () => {
     },
     {
       title: "예약 시간",
-      dataIndex: "startReservedAt",
+      dataIndex: ["startReservedAt", "endReservedAt"],
 
       render: (text, record) => (
         <>
@@ -91,17 +97,6 @@ const OrderTable = () => {
         <Button
           onClick={() => {
             StatusHandler(record.id, text);
-            Modal.confirm({
-              title: "Confirm",
-              content: "Bla bla ...",
-              footer: (_, { OkBtn, CancelBtn }) => (
-                <>
-                  <Button>Custom Button</Button>
-                  <CancelBtn />
-                  <OkBtn />
-                </>
-              ),
-            });
           }}
         >
           {text}
@@ -116,6 +111,11 @@ const OrderTable = () => {
 
   return (
     <>
+      {open && (
+        <Modal closeModal={closeModal}>
+          <OrderStatusForm closeModal={closeModal} />
+        </Modal>
+      )}
       <Table columns={columns} dataSource={list} pagination={false} />
       <Paging
         page={page}
@@ -128,12 +128,3 @@ const OrderTable = () => {
 };
 
 export default OrderTable;
-
-const StatusStyle = styled.div`
-  color: #217af8;
-  cursor: pointer;
-
-  &:hover {
-    color: skyblue;
-  }
-`;

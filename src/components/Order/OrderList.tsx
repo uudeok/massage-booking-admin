@@ -1,29 +1,44 @@
-import OrderCalendar from "./OrderCalendar";
 import OrderTable from "./OrderTable";
 import styled from "styled-components";
 import { useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import { ko } from "date-fns/esm/locale";
+import dayjs from "dayjs";
 
 const OrderList = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const addTwoWeeks = dayjs().add(2, "weeks").format();
+
+  const changeDateHandler = (date: Date) => {
+    setSelectedDate(date);
+  };
 
   return (
-    <div>
-      <CalendarBoxStyle>
+    <>
+      <HeaderStyle>
         <span>날짜별 조회 </span>
-        <OrderCalendar
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
+        <DatePicker
+          dateFormat="yyyy-MM-dd"
+          minDate={new Date()}
+          maxDate={new Date(addTwoWeeks)}
+          selected={selectedDate}
+          onChange={changeDateHandler}
+          locale={ko}
+          placeholderText="시작 시간"
+          onKeyDown={(e) => e.preventDefault()}
+          dateFormatCalendar="yyyy년 MM월"
         />
-      </CalendarBoxStyle>
+      </HeaderStyle>
 
       <OrderTable />
-    </div>
+    </>
   );
 };
 
 export default OrderList;
 
-const CalendarBoxStyle = styled.div`
+const HeaderStyle = styled.div`
   display: flex;
   text-align: center;
   padding: 1rem;

@@ -1,4 +1,4 @@
-import OrderList from "../components/Order/OrderList";
+import OrderList from "../../components/Order/OrderList";
 
 const OrderPage = () => {
   return <OrderList />;

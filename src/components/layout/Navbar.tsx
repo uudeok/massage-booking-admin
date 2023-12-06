@@ -4,6 +4,7 @@ import {
   UserOutlined,
   BookOutlined,
   NotificationOutlined,
+  UnorderedListOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
@@ -18,7 +19,11 @@ export const items: MenuItem[] = [
     icon: <BookOutlined />,
     children: [
       { label: <Link to="/order">예약조회</Link>, key: "orderList" },
-      { label: "예약상세", key: "orderDetail" },
+      { label: <Link to="/order/detail">예약상세</Link>, key: "orderDetail" },
+      {
+        label: <Link to="/order/manage">예약관리</Link>,
+        key: "orderManagement",
+      },
     ],
   },
   {
@@ -29,6 +34,12 @@ export const items: MenuItem[] = [
       { label: "고객리스트", key: "customerList" },
       { label: "고객상세조회", key: "customerDetail" },
     ],
+  },
+  {
+    label: "프로그램",
+    key: "program",
+    icon: <UnorderedListOutlined />,
+    children: [{ label: "프로그램 리스트", key: "programList" }],
   },
   {
     label: "공지사항",
